@@ -79,7 +79,7 @@ const LoginScreen = ({ navigation }) => {
                 onChangeText={(text)=>setPassword(text)}
                 value={password}
                 placeholderTextColor='#6d6e6e'
-                
+                secureTextEntry
                 placeholder="Password"
                 keyboardType="default"
                 autoCapitalize='none'

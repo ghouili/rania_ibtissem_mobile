@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FAB } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import mime from "mime";
-
+import Bubles from "../Components/Bubles";
 import { MainContext } from "../hooks/MainContext";
 import axios from "axios";
 
@@ -156,13 +156,16 @@ const Profile = () => {
 
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <LinearGradient
+    <View style={{ flex: 1 }}>
+     <LinearGradient
         // Background Linear Gradient
-        colors={["rgba(166,223,240, 0.8)", "transparent"]}
+        colors={['rgba(33,109,132, 1)', 'transparent']}
         style={styles.background}
       />
-      <ScrollView style={{ width: "100%", padding: 10 }}>
+      <View style={{marginTop: "-10%", marginLeft: "-10%"}}>
+        <Bubles />
+      </View>
+      <ScrollView style={{ width: "100%", padding: 10, marginTop: "-20%" }}>
         <View
           style={{
             width: "100%",
@@ -429,7 +432,7 @@ const Profile = () => {
         onPress={logout}
         // onPress={() => console.log('Pressed')}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

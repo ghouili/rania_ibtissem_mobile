@@ -8,6 +8,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import HomeScreen from '../screens/HomeScreen';
 import Profile from '../screens/Profile';
+import Reservations from '../screens/Reservations';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -16,6 +18,15 @@ const BottomNav = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+      //   title: '',
+      //   headerStyle:{
+      //     backgroundColor: 'rgba(0,0,0,0)',
+      //   },
+      //   headerLeft: () =>(
+      //     <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: 10, margin: 0}}>
+      //       <Ionicons name='notifications' size={25}  />
+      //     </View>
+      //   ),
       }}
     >
       <Tab.Screen 
@@ -28,6 +39,19 @@ const BottomNav = () => {
           ),
         }}
       />
+      
+      
+      <Tab.Screen 
+        name="Reservation" 
+        component={Reservations} 
+        options={{
+          tabBarLabel: 'Reservation',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="hand-right-outline" color={color} size={size} />
+          ),
+        }}
+      />
+
       
       
       <Tab.Screen 
