@@ -9,7 +9,8 @@ import ModalReservation from '../Components/ModalReservation';
 
 import { MainContext } from '../hooks/MainContext';
 import Bubles from '../Components/Bubles';
-import axios from 'axios';          
+import axios from 'axios';      
+import moment from 'moment';    
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -68,10 +69,10 @@ const Reservations = ({ navigation }) => {
 
       <View style={{marginTop: windowHeight * 0.0, height: windowHeight * 0.675, paddingBottom: "1%", paddingHorizontal: "2%" }} >
             <ScrollView>
-                {filterData.map(({_id, ord_image, qte, id_medic, id_user}, idx) => {
+                {filterData.map(({_id, ord_image, qte, id_medic, id_user, date}, idx) => {
 
                     let medic = medics.find(({_id}) => _id === id_medic);
-
+                    
                     return (
                         <TouchableOpacity key={idx}
                           onPress={() => {setModalVisible(!modalVisible); setId(id_medic); setData({_id: _id, ord_image: ord_image, qte: qte})}}

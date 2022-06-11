@@ -11,16 +11,10 @@ const Bubles = ({ notif, refresh }) => {
 
   return (
     <View>
-      {!notif && 
-        <TouchableOpacity
-          style={{position: 'absolute', top: 75, left: 60, zIndex: 70}}
-        >
-          <Ionicons name='notifications' size={25}  />
-        </TouchableOpacity>
-      }
+
       {refresh &&
         <TouchableOpacity
-        style={{position: 'absolute', top: 75, right: 70, zIndex: 70}}
+        style={{position: 'absolute', top: 80, right: 30, zIndex: 70}}
           onPress={refresh}
         >
           <FontAwesome name='refresh' size={25}  />

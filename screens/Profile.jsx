@@ -104,7 +104,7 @@ const Profile = () => {
 
       }
     }
-    console.log(url);
+    // console.log(url);
     const result = await axios.patch(`${path}/user/${auth._id}`,options);
 
     if (result.data.success === true) {

@@ -7,7 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ModalReservation from '../Components/ModalReservation';
   import Bubles from '../Components/Bubles';
   import axios from 'axios';
-
+import moment from 'moment'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -135,11 +135,15 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={{marginTop: windowHeight * 0.05, height: windowHeight * 0.675, paddingBottom: "1%", paddingHorizontal: "2%" }} >
+      <View style={{marginTop: windowHeight * 0.05, height: windowHeight * 0.675, paddingHorizontal: "2%" , paddingBottom: 80}} >
         <ScrollView>
         {filterData.map(({ _id, nom, code, dci, qte, date, forme, classe, image, id_user }, idx) => {
 
-          if (qte === 0) {
+          
+         
+          let now = moment(new Date()).format('YYYY-MM-DD');
+          let expired = moment(date).isBefore(now);
+          if (expired || qte === 0) {
             return ;
           }
           return (

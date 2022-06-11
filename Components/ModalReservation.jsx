@@ -26,11 +26,10 @@ const ModalReservation = ({ fetchData, id, setModalVisible, data }) => {
     const { auth } = useContext(MainContext);
     const [image, setImage] = useState(null);
     const [nbr, setNbr] = useState('');
-    let{_id, ord_image, qte} = data;
 
     useEffect(() => {
-      if(qte) {
-        return setNbr(qte);
+      if(data) {
+        return setNbr(data.qte);
       }
     }, [])
     
@@ -84,14 +83,14 @@ const ModalReservation = ({ fetchData, id, setModalVisible, data }) => {
         formData.append("id_medic", id);
         
         let url;
-        if (_id){
-            url  = `${path}/reservation/${_id}`;
+        if (data){
+            url  = `${path}/reservation/${data._id}`;
         } else {
             url = `${path}/reservation/add`;
         }
 
         let options;
-        if(_id) {
+        if(data) {
             options = {
                 method: "Patch",
                 body: formData,
@@ -144,12 +143,12 @@ const ModalReservation = ({ fetchData, id, setModalVisible, data }) => {
                                 source={{ uri: image.uri }} 
                             />    
                         </>
-                    ): ord_image ? (
+                    ): data && data.ord_image ? (
                         <>
                             <Image
                                 style={{width: "100%", aspectRatio: 4/3, borderRadius: 5, resizeMode: 'contain' }}
                                 source={{
-                                    uri: `${path}/uploads/images/${ord_image}`
+                                    uri: `${path}/uploads/images/${data.ord_image}`
                                 }}
                             />
                             <View style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20}}  >
@@ -197,55 +196,9 @@ const ModalReservation = ({ fetchData, id, setModalVisible, data }) => {
                             keyboardType="numeric"
                         />
 
-                        {/* <View style={{display: 'flex', alignItems:'center', width: '47%'}} >
-                            <TouchableOpacity
-                                style={{width: '100%', display: 'flex', alignItems:'center', flexDirection: 'row'}}
-                                onPress={showDatepicker}
-                                >
-                                
-                                <TextInput
-                                    style={{height: WindowHeight * 0.06, borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700', width: '70%'}}
-                                    placeholder='Expire date' 
-                                    placeholderTextColor='#919191'
-                                    autoCapitalize='none'
-                                    keyboardType='default'
-                                    onChangeText={(text) => setDate_exp(text)}
-                                    
-                                    value={date_exp.toString()}
-                                />
-                                 
-                                <View style={{width:  '30%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                    <EvilIcons name='calendar' size={35} color='#919191' />
-                                </View>
-                                </TouchableOpacity>
-                                {show && (
-                                <DateTimePicker
-                                // testID="dateTimePicker"
-                                value={date}
-                                mode="date"
-                                is24Hour={true}
-                                display="default"
-                                onChange={onChange}
-                                />
-                                )}
-                        </View> */}
+                        
                     </View>
 
-
-                    
-                    
-                    {/* <TextInput
-                        style={{ marginBottom: "0%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
-                        onChangeText={(text) => setDesc(text)}
-                        value={desc}
-                        multiline
-                        editable
-                        maxLength={800}
-                        numberOfLines={6}
-                        placeholderTextColor='#6d6e6e'
-                        placeholder="Say something"
-                        keyboardType="default"
-                    /> */}
                     
                 </View>
 

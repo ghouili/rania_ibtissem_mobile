@@ -25,7 +25,6 @@ const RegisterScreen = ({ navigation }) => {
     const [tel, setTel] = useState();
     const [adress, setAdress] = useState('');
     const [birthdate, setBirthdate] = useState('');
-    const [password, setPassword] = useState('');
     const [date, setDate] = useState(today);
     const [show, setShow] = useState(false);
 
@@ -49,13 +48,10 @@ const RegisterScreen = ({ navigation }) => {
             adress: adress,
             birthdate: date,
             sexe: selectedLanguage,
-            password: password
         });
 
         if (result.data.success){
-            const jsonValue = JSON.stringify(result.data.data);
-            await AsyncStorage.setItem('user', jsonValue);
-            setChanged(new Date());
+            navigation.navigate('login')
             Alert.alert(
                 "Success",
                 result.data.message,
@@ -157,20 +153,7 @@ const RegisterScreen = ({ navigation }) => {
                         
                         />
                         )}
-                    {/* <View style={{width: '48%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderWidth: 1}} >
-                           
-
-
-                        <TextInput
-                            style={{width: '100%', height: windowHeight * 0.06, borderWidth: 1, paddingHorizontal: "5%", borderRadius: 10, backgroundColor: 'rgb(230,238,241)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
-                            // onChangeText={onChangeNumber}
-                            // value={number}
-                            placeholderTextColor='#6d6e6e'
-                            
-                            placeholder="Prenom"
-                            keyboardType="numeric"
-                        />
-                    </View> */}
+                    
                     <View style={{width: '48%', height: windowHeight * 0.06, flexWrap: 'wrap', overflow: 'hidden', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: 5,  backgroundColor: 'rgb(230,238,241)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}>
                         <Picker
                             style={{width: '100%',  borderWidth: 1, paddingHorizontal: "5%"}}
@@ -206,7 +189,7 @@ const RegisterScreen = ({ navigation }) => {
                     autoCapitalize='none'
                 />
 
-                <TextInput
+                {/* <TextInput
                     style={{height: windowHeight * 0.06, marginBottom: "4%", borderWidth: 1, padding: 10, borderRadius: 5, backgroundColor: 'rgb(230,238,241)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
                     onChangeText={(text)=> setPassword(text)}
                     value={password}
@@ -215,7 +198,7 @@ const RegisterScreen = ({ navigation }) => {
                     placeholder="Password"
                     keyboardType="default"
                     autoCapitalize='none'
-                />
+                /> */}
 
                
             </View>
