@@ -10,7 +10,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <ProvidContext>
-          <MainNav />
+          <MainNav /> 
       </ProvidContext>
     </NavigationContainer>
     

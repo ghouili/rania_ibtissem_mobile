@@ -81,7 +81,7 @@ const RegisterScreen = ({ navigation }) => {
             style={styles.background}
         />
         <ScrollView>
-            <Bubles />
+            <Bubles notif={true} />
             <Image
             style={{width: windowWidth* 0.6, height: 80, resizeMode: 'contain', alignSelf: 'center'}}
             source={require('../../assets/logo_med.png')}
@@ -224,7 +224,7 @@ const RegisterScreen = ({ navigation }) => {
             style={{width: windowWidth * 0.9, alignSelf: 'center', backgroundColor: '#219EBA', paddingHorizontal: "10%", paddingVertical: "3%", marginTop: "10%", borderRadius: 3}}
             onPress={register}
             >
-                <Text style={{fontWeight: '900', color: 'white', alignSelf: 'center', fontSize: 16}}>Sugn up</Text>
+                <Text style={{fontWeight: '900', color: 'white', alignSelf: 'center', fontSize: 16}}>Si-+gn up</Text>
             </TouchableOpacity>
             <View style={{width: windowWidth * 0.45, alignSelf: 'center',  flexDirection: 'row', marginTop: "2%"}}>
                 <Text style={{color: 'black',  }}>Already have an Account?</Text>

@@ -55,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
         style={styles.background}
     />
     <ScrollView>
-        <Bubles />
+        <Bubles notif={true} />
         <Image
         style={{width: windowWidth* 0.6, height: 80, resizeMode: 'contain', alignSelf: 'center', marginVertical: 50}}
         source={require('../../assets/logo_med.png')}

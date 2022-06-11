@@ -20,12 +20,20 @@ const WindowHeight = Dimensions.get('window').height;
 
 // const today = new Date();
 
-const ModalReservation = ({ fetchData, id, setModalVisible }) => {
+const ModalReservation = ({ fetchData, id, setModalVisible, data }) => {
 
     console.log(id);
     const { auth } = useContext(MainContext);
     const [image, setImage] = useState(null);
     const [nbr, setNbr] = useState('');
+    let{_id, ord_image, qte} = data;
+
+    useEffect(() => {
+      if(qte) {
+        return setNbr(qte);
+      }
+    }, [])
+    
     
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -61,7 +69,7 @@ const ModalReservation = ({ fetchData, id, setModalVisible }) => {
 
     const Submit = async () => {
 
-        const url = `${path}/reservation/add`;
+        
         const fileUri = image.uri;
         const newImageUri = "file:///" + fileUri.split("file:/").join("");
         const formData = new FormData();
@@ -75,15 +83,35 @@ const ModalReservation = ({ fetchData, id, setModalVisible }) => {
         formData.append("id_user", auth._id);
         formData.append("id_medic", id);
         
-        const options = {
-            method: "POST",
-            body: formData,
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "multipart/form-data",
-            },
-        };
-        console.log(formData);
+        let url;
+        if (_id){
+            url  = `${path}/reservation/${_id}`;
+        } else {
+            url = `${path}/reservation/add`;
+        }
+
+        let options;
+        if(_id) {
+            options = {
+                method: "Patch",
+                body: formData,
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "multipart/form-data",
+                },
+            };
+        } else {
+            options = {
+                method: "POST",
+                body: formData,
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "multipart/form-data",
+                },
+            };
+
+        }
+        // console.log(formData);
 
         let response = await fetch( url, options);
 
@@ -108,7 +136,7 @@ const ModalReservation = ({ fetchData, id, setModalVisible }) => {
     <View>
         {/* <ScrollView> */}
             <View style={{ paddingHorizontal: "5%", paddingTop: "5%"}}>
-                <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-between'}}>
+                
                     {image ? (
                         <>
                             <Image
@@ -116,8 +144,31 @@ const ModalReservation = ({ fetchData, id, setModalVisible }) => {
                                 source={{ uri: image.uri }} 
                             />    
                         </>
-                    ): 
+                    ): ord_image ? (
                         <>
+                            <Image
+                                style={{width: "100%", aspectRatio: 4/3, borderRadius: 5, resizeMode: 'contain' }}
+                                source={{
+                                    uri: `${path}/uploads/images/${ord_image}`
+                                }}
+                            />
+                            <View style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20}}  >
+                            <TouchableOpacity
+                                style={{width: "35%", backgroundColor: 'rgba(230,238,241,1)', justifyContent: 'center', alignItems: 'center', height: WindowHeight * 0.13, borderWidth: 1, borderColor: 'white', borderRadius: 5}}
+                                onPress={pickCamera}
+                            >
+                                <Ionicons name='camera-outline' color='black' size={40} />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{width: "35%", backgroundColor: 'rgba(230,238,241,1)', justifyContent: 'center', alignItems: 'center', height: WindowHeight * 0.13, borderWidth: 1, borderColor: 'white', borderRadius: 5}}
+                                onPress={pickImage}
+                            >
+                                <EvilIcons name='image' color='black' size={50} />
+                            </TouchableOpacity>
+                            </View>    
+                        </>
+                    ):
+                        <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-between'}}>
                             <TouchableOpacity
                                 style={{width: "47.5%", backgroundColor: 'rgba(230,238,241,1)', justifyContent: 'center', alignItems: 'center', height: WindowHeight * 0.2,borderWidth: 1, borderColor: 'white', borderRadius: 5}}
                                 onPress={pickCamera}
@@ -130,26 +181,17 @@ const ModalReservation = ({ fetchData, id, setModalVisible }) => {
                             >
                                 <EvilIcons name='image' color='black' size={50} />
                             </TouchableOpacity>
-                        </>
+                        
+                        </View>
                     }
-                </View>
 
                 <View style={{marginTop: "5%"}}>
-                    
-                    {/* <TextInput
-                        style={{height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
-                        onChangeText={(text) => setTitle(text)}
-                        value={title}
-                        placeholderTextColor='#6d6e6e'
-                        placeholder="Title"
-                        keyboardType="default"
-                    /> */}
-                    
+                                       
                     <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: "4%"}} >
                         <TextInput
                             style={{height: WindowHeight * 0.06, marginBottom: "0%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700', width: "47%"}}
                             onChangeText={(text) => setNbr(text)}
-                            value={nbr}
+                            value={nbr.toString()}
                             placeholderTextColor='#6d6e6e'
                             placeholder="How Many"
                             keyboardType="numeric"

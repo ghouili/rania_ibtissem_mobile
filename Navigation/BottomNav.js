@@ -34,6 +34,7 @@ const BottomNav = () => {
         component={HomeScreen} 
         options={{
           tabBarLabel: 'Home',
+          // unmountOnBlur: true,
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="home" color={color} size={size} />
           ),

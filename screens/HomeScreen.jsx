@@ -55,7 +55,7 @@ const HomeScreen = () => {
       setfilterData(masterData);
       setClicked('');
     }
-  }
+  } 
 
 
   const fetchData = async () => {

@@ -31,12 +31,11 @@ const Profile = () => {
   const [currentPassword, setCurrentPassword] = useState(null);
   const [confirmpassword, setConfirmpassword] = useState(null);
   const [visible1, setVisible1] = useState(false);
-  const [image, setImage] = useState(null);
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [email, setEmail] = useState("");
-  const [avatar, setAvatar] = useState("");
   const [tel, setTel] = useState("");
+  const [adress, setAdress] = useState("");
   const [securedold, setSecuredold] = useState(true);
   const [securednew, setSecurednew] = useState(true);
   const [securedconf, setSecuredconf] = useState(true);
@@ -52,8 +51,8 @@ const Profile = () => {
       setNom(resultData.data.nom);
       setPrenom(resultData.data.prenom);
       setEmail(resultData.data.email);
-      setAvatar(resultData.data.avatar);
       setTel(resultData.data.tel);
+      setAdress(resultData.data.adress);
     } else {
       Alert.alert("ERROR", "Something went Wrng", [{ text: "fermer" }]);
     }
@@ -84,30 +83,7 @@ const Profile = () => {
       ]);
     }
 
-    // const result = await axios.patch(`${path}/user/${auth._id}`, {
-    //   nom: nom,
-    //   prenom:prenom,
-    //   tel:tel
-
-    // })
     const url = `${path}/user/${auth._id}`;
-    const formData = new FormData();
-    if (password) {
-      formData.append("password", password);
-      formData.append("currentPassword", currentPassword);
-    }
-    formData.append("nom", nom);
-    formData.append("prenom", prenom);
-    formData.append("tel", tel);
-
-    // const options = {
-    //   method: "PATCH",
-    //   body: formData,
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // };
 
     let options; 
     if (password) {
@@ -115,6 +91,7 @@ const Profile = () => {
         nom: nom,
         prenom:prenom,
         tel:tel,
+        adress: adress,
         password: password,
         currentPassword: currentPassword
       }
@@ -123,28 +100,20 @@ const Profile = () => {
         nom: nom,
         prenom:prenom,
         tel:tel,
+        adress: adress,
 
       }
     }
     console.log(url);
     const result = await axios.patch(`${path}/user/${auth._id}`,options);
-    // const result = await axios.patch(`${path}/user/${auth._id}`,formData,{
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data'
-    //   }});
-    // let response = await fetch(url, options);
 
-    // let result = await response.json();
-    // console.log("====================================");
-    // console.log(result);
-    // console.log("====================================");
     if (result.data.success === true) {
       Alert.alert("Success", result.data.message, [{ text: "fermer" }]);
       fetchData();
       await AsyncStorage.removeItem("user");
       const jsonValue = JSON.stringify(result.data.data);
       await AsyncStorage.setItem("user", jsonValue);
-      setChanged("updated");
+      setChanged(new Date());
       setCurrentPassword(null);
       setPassword(null);
       setConfirmpassword(null);
@@ -175,10 +144,7 @@ const Profile = () => {
             justifyContent: "space-between",
           }}
         >
-          <Image
-            style={{ width: "25%", height: 80, borderRadius: 150 }}
-            source={{ uri: `${path}/uploads/images/${avatar}` }}
-          />
+          <View style={{width: '25%'}} />
 
           <TextInput
             style={{
@@ -269,6 +235,26 @@ const Profile = () => {
             value={tel.toString()}
             placeholderTextColor="#6d6e6e"
             placeholder={`${tel}`}
+            keyboardType="default"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={{
+              width: "100%",
+              height: WindowHeight * 0.06,
+              marginBottom: "4%",
+              borderWidth: 1,
+              paddingHorizontal: "5%",
+              borderRadius: 5,
+              backgroundColor: "rgba(230,238,241,1)",
+              borderColor: "white",
+              fontSize: 16,
+              fontWeight: "700",
+            }}
+            onChangeText={(text) => setAdress (text)}
+            value={adress}
+            placeholderTextColor="#6d6e6e"
+            placeholder={'your adress'}
             keyboardType="default"
             autoCapitalize="none"
           />

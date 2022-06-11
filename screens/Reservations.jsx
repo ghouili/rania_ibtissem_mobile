@@ -2,7 +2,10 @@ import React, {useEffect, useState, useContext} from 'react'
 import { View, Text, TextInput, TouchableOpacity, Dimensions, ScrollView, Image, Modal, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import ModalReservation from '../Components/ModalReservation';
 
 import { MainContext } from '../hooks/MainContext';
 import Bubles from '../Components/Bubles';
@@ -16,12 +19,18 @@ const Reservations = ({ navigation }) => {
     const { auth } = useContext(MainContext);
     const [items, setItems] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
+    const [id, setId] = useState('');
     const [filterData, setfilterData] = useState([]);
     const [masterData, setmasterData] = useState([]);
     const [search, setSearch] = useState('');
     const [users, setUsers] = useState([]);
     const [medics, setMedics] = useState([]);
-    
+    const [data, setData] = useState({
+      _id:'',
+      ord_image:'',
+      qte:0
+    });
+
     const fetchData = async () => {
 
         const result = await axios.post(`${path}/reservation/${auth._id}`);
@@ -54,7 +63,7 @@ const Reservations = ({ navigation }) => {
         style={styles.background}
       />
       <View style={{marginTop: "-10%", marginLeft: "-10%"}}>
-        <Bubles />
+        <Bubles refresh={fetchData} />
       </View>
 
       <View style={{marginTop: windowHeight * 0.0, height: windowHeight * 0.675, paddingBottom: "1%", paddingHorizontal: "2%" }} >
@@ -65,7 +74,7 @@ const Reservations = ({ navigation }) => {
 
                     return (
                         <TouchableOpacity key={idx}
-                          onPress={() => {setModalVisible(!modalVisible); setId(_id)}}
+                          onPress={() => {setModalVisible(!modalVisible); setId(id_medic); setData({_id: _id, ord_image: ord_image, qte: qte})}}
                         >
                           <View  style={{flexDirection: 'row', borderRadius: 5, backgroundColor: '#d1e6e6'}}>
                             <Image
@@ -108,7 +117,30 @@ const Reservations = ({ navigation }) => {
             </ScrollView>
         </View>
 
-
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+        // Alert.alert("Modal has been closed.");
+        setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity 
+              style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <MaterialCommunityIcons style={{alignSelf: 'flex-end'}} name='close-box-outline' color='#9c0000' size={25} />
+            </TouchableOpacity>
+            <ScrollView>
+              <ModalReservation fetchData={fetchData} id={id} setModalVisible={setModalVisible} data={data} />
+            </ScrollView>
+                    
+          </View>
+        </View>
+      </Modal>
     </View>
   )
 }
@@ -116,11 +148,70 @@ const Reservations = ({ navigation }) => {
 export default Reservations
 
 const styles = StyleSheet.create({
-    background: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        height: windowHeight ,
-      },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: windowHeight ,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    // alignItems: "center",
+    paddingTop: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)'
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'rgba(166,223,240, 1)',
+    borderRadius: 5,
+    padding: 5,
+    // alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    overflow: 'scroll',
+    // flexWrap: 'wrap'
+  },
+// button: {
+  //   borderRadius: 5,
+  //   padding: 10,
+  //   elevation: 2
+  // },
+  // buttonOpen: {
+  //   backgroundColor: "#F194FF",
+  // },
+  // buttonClose: {
+  //   backgroundColor: "#2196F3",
+// },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  },
+  clicked: {
+    backgroundColor: 'rgba(33,109,132, 1)', 
+  }, 
+  notclicked: {
+
+  },
+  groupbuttons: {
+    width: '25%', 
+    height: '100%', 
+    display: 'flex', 
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderRadius: 10
+  }
 })

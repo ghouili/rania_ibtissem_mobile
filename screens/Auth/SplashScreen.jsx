@@ -20,7 +20,7 @@ const windowWidth = Dimensions.get('window').width;
         style={styles.background}
       />
       
-      <Bubles  />
+      <Bubles notif={true} />
 
       {/* <Text style={{fontWeight: 'bold', fontSize: 32, colore: '#01879B', alignSelf: 'center'}}>ToDo</Text> */}
 
